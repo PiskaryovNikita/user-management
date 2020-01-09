@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <ROLE ROLEID='1' name='user' />
+    <ROLE ROLEID='2' name='admin' />
+    <USER USERID='10' LOGIN='liangsuyun' PASSWORD='qwerty' EMAIL='lsuyun123' FIRSTNAME='Suyun' LASTNAME='Liang' BIRTHDAY='1998-08-6' ROLE_ROLEID='2' />
+    <USER USERID='20' LOGIN='npiskaryov' PASSWORD='12345' EMAIL='nikita321' FIRSTNAME='Nikita' LASTNAME='Piskaryov' BIRTHDAY='1999-01-15' ROLE_ROLEID='2' />
+    <USER USERID='30' LOGIN='jdjra' PASSWORD='pass' EMAIL='djuraemail' FIRSTNAME='fn' LASTNAME='ln' BIRTHDAY='1999-07-07' ROLE_ROLEID='2' />
+</dataset>
