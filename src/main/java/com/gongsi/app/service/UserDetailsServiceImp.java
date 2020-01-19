@@ -1,6 +1,6 @@
 package com.gongsi.app.service;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,12 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gongsi.app.model.User;
 import com.gongsi.rest.errorHandling.exceptions.DataNotFoundExcpetion;
 
+@Slf4j
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
 
 	@Autowired
 	private UserService userService;
-	private static final Logger logger = Logger.getLogger(UserDetailsServiceImp.class);
 
 	@Transactional
 	@Override
@@ -27,9 +27,9 @@ public class UserDetailsServiceImp implements UserDetailsService {
 		try {
 			user = userService.findByLogin(userName);
 		} catch (DataNotFoundExcpetion e) {
-			logger.error("no user with username " + userName, e);
+			log.error("no user with username " + userName, e);
 		} catch (Exception e) {
-			logger.error("loadUserByUsername", e);
+			log.error("loadUserByUsername", e);
 			throw new RuntimeException("excbyload", e);
 		}
 		UserBuilder builder = null;

@@ -9,7 +9,7 @@ import com.gongsi.app.model.User;
 import com.gongsi.app.persistence.UserDao;
 
 @Service(value = "userValidator")
-public class UserUniqueValidator implements Validator {
+public class UserValidator implements Validator {
 	@Autowired
 	private UserDao userDao;
 

@@ -43,7 +43,7 @@ form {
 				<td></td>
 				<td><p>
 						<input type="submit" name="Submit" value="login"> <a
-							href="/registr" class="btn btn-secondary btn-lg active"
+							href="./registr" class="btn btn-secondary btn-lg active"
 							role="button" aria-pressed="true">Registration</a>
 					</p></td>
 			</tr>

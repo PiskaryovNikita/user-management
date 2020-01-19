@@ -5,19 +5,19 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+@Slf4j
 @Repository
 @Transactional
 public class HibernateDao {
 	@Autowired
 	private SessionFactory sessionFactory;
-	private static Logger logger = Logger.getLogger(HibernateDao.class);
 
 
 	public void createObject(Object object) {
@@ -25,7 +25,7 @@ public class HibernateDao {
 		try {
 			session.save(object);
 		} catch (Exception e) {
-			logger.error("HibernateDao", e);
+			log.error("HibernateDao", e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -42,7 +42,7 @@ public class HibernateDao {
 			obj = query.getSingleResult();
 			return obj;
 		} catch (Exception e) {
-			logger.error("HibernateDao", e);
+			log.error("HibernateDao", e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -59,7 +59,7 @@ public class HibernateDao {
 			objects = query.getResultList();
 			return objects;
 		} catch (Exception e) {
-			logger.error("HibernateDao", e);
+			log.error("HibernateDao", e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -70,7 +70,7 @@ public class HibernateDao {
 			session.clear();
 			session.update(object);
 		} catch (Exception e) {
-			logger.error("HibernateDao", e);
+			log.error("HibernateDao", e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -81,7 +81,7 @@ public class HibernateDao {
 			session.clear();
 			session.remove(object);
 		} catch (Exception e) {
-			logger.error("HibernateDao", e);
+			log.error("HibernateDao", e);
 			throw new RuntimeException("HibernateDao", e);
 		}
 	}
@@ -93,7 +93,7 @@ public class HibernateDao {
 			query.setParameter("del_factor", delValue);
 			query.executeUpdate();
 		} catch (Exception e) {
-			logger.error("HibernateDao", e);
+			log.error("HibernateDao", e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -104,7 +104,7 @@ public class HibernateDao {
 			Query query = session.createQuery(hql);
 			query.executeUpdate();
 		} catch (Exception e) {
-			logger.error("HibernateDao", e);
+			log.error("HibernateDao", e);
 			throw new RuntimeException(e);
 		}
 	}
