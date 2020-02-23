@@ -2,7 +2,7 @@ package com.gongsi.app.service;
 
 import java.util.List;
 
-import com.gongsi.app.model.User;
+import com.gongsi.app.persistence.model.User;
 
 public interface UserService {
 	void create(User user);

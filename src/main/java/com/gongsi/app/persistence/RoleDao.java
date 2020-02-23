@@ -2,7 +2,7 @@ package com.gongsi.app.persistence;
 
 import java.util.List;
 
-import com.gongsi.app.model.Role;
+import com.gongsi.app.persistence.model.Role;
 
 public interface RoleDao {
 	void create(Role role);

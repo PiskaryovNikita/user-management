@@ -2,8 +2,6 @@
 <dataset>
   <ROLE ID='1' name='user'/>
   <ROLE ID='2' name='admin'/>
-  <USER LOGIN='l' PASSWORD='s' EMAIL='sl' FIRSTNAME='s' LASTNAME='l'
-        BIRTHDAY='1999-07-07' ROLE_ID='2'/>
   <USER ID='10' LOGIN='liangsuyun' PASSWORD='qwerty'
         EMAIL='lsuyun123' FIRSTNAME='Suyun' LASTNAME='Liang'
         BIRTHDAY='1998-08-6' ROLE_ID='2'/>

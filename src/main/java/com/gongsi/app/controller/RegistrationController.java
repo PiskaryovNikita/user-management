@@ -14,8 +14,8 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.gongsi.app.model.Role;
-import com.gongsi.app.model.User;
+import com.gongsi.app.persistence.model.Role;
+import com.gongsi.app.persistence.model.User;
 import com.gongsi.app.service.UserService;
 
 @Controller

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.gongsi.app.model.User;
+import com.gongsi.app.persistence.model.User;
 import com.gongsi.app.persistence.UserDao;
 
 @Service(value = "userValidator")

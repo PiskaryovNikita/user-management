@@ -10,8 +10,8 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.gongsi.app.model.Role;
-import com.gongsi.app.model.User;
+import com.gongsi.app.persistence.model.Role;
+import com.gongsi.app.persistence.model.User;
 
 @Configuration
 @ComponentScan({"com.gongsi.app.service", "com.gongsi.app.persistence"})

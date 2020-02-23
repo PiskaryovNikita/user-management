@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import com.gongsi.app.controller.RegistrationController;
-import com.gongsi.app.model.User;
+import com.gongsi.app.persistence.model.User;
 import com.gongsi.app.service.UserService;
 
 import static org.mockito.ArgumentMatchers.any;

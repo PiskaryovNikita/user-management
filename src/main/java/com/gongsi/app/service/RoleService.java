@@ -2,7 +2,7 @@ package com.gongsi.app.service;
 
 import java.util.List;
 
-import com.gongsi.app.model.Role;
+import com.gongsi.app.persistence.model.Role;
 
 public interface RoleService {
 	void create(Role role);

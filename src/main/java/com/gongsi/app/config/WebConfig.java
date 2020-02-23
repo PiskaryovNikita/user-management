@@ -15,8 +15,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.gongsi.app.model.Role;
-import com.gongsi.app.model.User;
+import com.gongsi.app.persistence.model.Role;
+import com.gongsi.app.persistence.model.User;
 
 @Configuration
 @ComponentScan({"com.gongsi"})

@@ -16,7 +16,7 @@
 		<property name="hbm2ddl.auto">update</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
 		<!-- classes mapped to tables in db -->
-		<mapping class="com.gongsi.app.model.User" />
-		<mapping class="com.gongsi.app.model.Role"/>
+		<mapping class="com.gongsi.app.persistence.model.User" />
+		<mapping class="com.gongsi.app.persistence.model.Role"/>
 	</session-factory>
 </hibernate-configuration>

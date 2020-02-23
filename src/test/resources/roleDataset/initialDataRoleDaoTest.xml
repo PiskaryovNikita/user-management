@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-  <ROLE ID='10' NAME='m'/>
+  <ROLE ID='10' NAME='user'/>
   <ROLE ID='20' NAME='admin'/>
 </dataset>
