@@ -17,14 +17,15 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 
 @Path("/users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @POST
     public Response addUser(User user, @Context UriInfo uriInfo) {

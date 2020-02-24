@@ -16,14 +16,15 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 
 @Path("/roles")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class RoleResource {
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
 
     @POST
     public Response addRole(@Context UriInfo uriInfo, Role role) {

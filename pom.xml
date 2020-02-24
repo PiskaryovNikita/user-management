@@ -18,6 +18,12 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <cxf.version>3.3.2</cxf.version>
+    <mockito.version>2.28.2</mockito.version>
+    <swagger.version>1.5.22</swagger.version>
+    <swagger.ui.version>3.22.2</swagger.ui.version>
+    <javax.interceptor.api.version>1.2</javax.interceptor.api.version>
   </properties>
 
   <dependencies>
@@ -44,10 +50,17 @@
     </dependency>
 
     <!-- DB -->
+    <!--        transitive dependency of @Transactional-->
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>1.4.197</version>
+      <groupId>javax.interceptor</groupId>
+      <artifactId>javax.interceptor-api</artifactId>
+      <version>${javax.interceptor.api.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mariadb.jdbc</groupId>
+      <artifactId>mariadb-java-client</artifactId>
+      <version>${mariadb.version}</version>
     </dependency>
 
     <dependency>
@@ -71,7 +84,6 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -95,7 +107,7 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-agroal</artifactId>
-      <version>5.4.1.Final</version>
+      <version>${hibernate.version}</version>
       <type>pom</type>
     </dependency>
 
@@ -158,7 +170,7 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <version>6.1.2.Final</version>
+      <version>${hibernate.version}</version>
     </dependency>
     <!-- MOCKITO -->
     <dependency>
@@ -166,43 +178,61 @@
       <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- JERSEY -->
+
     <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-servlet</artifactId>
-      <version>2.26</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <optional>true</optional>
     </dependency>
-    <!-- FOR JAVA OBJECT TO JSON CONVERTION -->
+    <!--      CXF-->
     <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-moxy</artifactId>
-      <version>2.26</version>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
+      <version>${cxf.version}</version>
     </dependency>
+
     <dependency>
-      <groupId>org.glassfish.jersey.ext</groupId>
-      <artifactId>jersey-spring4</artifactId>
-      <version>2.27</version>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
+      <version>${cxf.version}</version>
     </dependency>
+
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.9.10.1</version>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-rs-service-description</artifactId>
+      <version>${cxf.version}</version>
     </dependency>
-    <!-- GLASSFISH CONTAINS JAXWS RI(metro) -->
+
     <dependency>
-      <groupId>javax.json.bind</groupId>
-      <artifactId>javax.json.bind-api</artifactId>
-      <version>1.0</version>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger.version}</version>
     </dependency>
+
     <dependency>
-      <groupId>org.eclipse</groupId>
-      <artifactId>yasson</artifactId>
-      <version>1.0.1</version>
+      <groupId>org.webjars</groupId>
+      <artifactId>swagger-ui</artifactId>
+      <version>${swagger.ui.version}</version>
     </dependency>
+
+    <!--  Cxf-Client-->
     <dependency>
-      <groupId>org.glassfish</groupId>
-      <artifactId>javax.json</artifactId>
-      <version>1.1.2</version>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-rs-client</artifactId>
+      <version>${cxf.version}</version>
+    </dependency>
+
+    <!--        hibernate validator-->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+    <!-- Jackson dependencies -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>${jackson.version}</version>
     </dependency>
 
     <!--    reporting-->
@@ -238,6 +268,10 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
       </plugin>
@@ -264,30 +298,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <!--			Before using the plugin, setup of local tomcat and maven settings is required(to setup server).
-      It can set up with following article:
-       https://mkyong.com/maven/how-to-deploy-maven-based-war-file-to-tomcat/-->
-      <plugin>
-        <groupId>org.apache.tomcat.maven</groupId>
-        <artifactId>tomcat7-maven-plugin</artifactId>
-        <version>2.2</version>
-        <executions>
-          <execution>
-            <id>tomcat-deploy</id>
-            <phase>install</phase>
-            <goals>
-              <goal>deploy</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <url>http://localhost:8080/manager/text</url>
-          <server>TomcatServer</server>
-          <username>admin</username>
-          <password>password</password>
-          <path>/user-management</path>
-        </configuration>
       </plugin>
     </plugins>
   </build>
