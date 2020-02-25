@@ -4,12 +4,12 @@
     "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="hibernate.current_session_context_class">thread</property>
-    <!-- printout all sqls for specified db -->
+    <!--    if using spring @Transactional hibernate.current_session_context_class need to absent-->
+    <!--    else(javax @Transactional) is fine-->
+    <!--    <property name="hibernate.current_session_context_class">thread</property>-->
     <property name="hibernate.show_sql">true</property>
-    <!-- create - drop table if exists -->
+    <!--    Hibernate ddl auto (create, create-drop, validate, update)-->
     <property name="hbm2ddl.auto">update</property>
     <property name="hibernate.dialect">org.hibernate.dialect.MariaDB102Dialect</property>
-    <!-- classes mapped to tables in db -->
   </session-factory>
 </hibernate-configuration>

@@ -1,4 +1,4 @@
-package com.gongsi.rest.resource;
+package com.gongsi.app.resource;
 
 import com.gongsi.app.persistence.model.Role;
 import com.gongsi.app.service.RoleService;

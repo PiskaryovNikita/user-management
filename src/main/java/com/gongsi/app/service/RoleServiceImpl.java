@@ -1,16 +1,17 @@
 package com.gongsi.app.service;
 
+import com.gongsi.app.errorHandling.exceptions.DataNotFoundExcpetion;
+import com.gongsi.app.errorHandling.exceptions.ResourceAlreadyExistsException;
 import com.gongsi.app.persistence.RoleDao;
 import com.gongsi.app.persistence.model.Role;
-import com.gongsi.rest.errorHandling.exceptions.DataNotFoundExcpetion;
-import com.gongsi.rest.errorHandling.exceptions.ResourceAlreadyExistsException;
+import java.util.ArrayList;
 import java.util.List;
-import javax.transaction.Transactional;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-//performs our logic using persistence layer
 public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleDao roleDao;
@@ -70,8 +71,8 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public List<Role> findAll() {
         List<Role> roles = roleDao.findAll();
-        if (roles.size() == 0) {
-            throw new DataNotFoundExcpetion("no roles ");
+        if (Objects.isNull(roles)) {
+            roles = new ArrayList<>();
         }
         return roles;
     }

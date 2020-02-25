@@ -1,7 +1,9 @@
-package com.gongsi.rest.resource;
+package com.gongsi.app.resource;
 
 import com.gongsi.app.persistence.model.User;
 import com.gongsi.app.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.net.URI;
 import java.util.List;
 import javax.ws.rs.BeanParam;
@@ -21,24 +23,28 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 
+
+@Api("/users")
 @Path("/users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
     private final UserService userService;
 
+    @ApiOperation("add")
     @POST
-    public Response addUser(User user, @Context UriInfo uriInfo) {
+    public Response add(User user, @Context UriInfo uriInfo) {
         userService.create(user);
         User newUser = userService.findByLogin(user.getLogin());
         URI uri = uriInfo.getAbsolutePathBuilder().path(newUser.getId() + "").build();
-        // builder pattern
-        return Response.created(uri)// 201 + Location header
+        // 201 + Location header
+        return Response.created(uri)
                 .entity(newUser).build();
     }
 
+    @ApiOperation("getAll")
     @GET
-    public List<User> getUsers(@BeanParam UserFilterBean filterBean, @Context UriInfo uriInfo) {
+    public List<User> getAll(@BeanParam UserFilterBean filterBean) {
         if (filterBean.getYear() != null) {
             return userService.filterByYear(filterBean.getYear());
         }
@@ -51,24 +57,26 @@ public class UserResource {
         return userService.findAll();
     }
 
+    @ApiOperation("get")
     @GET
-    @Path("/{userId}")
-    public User getUserById(@PathParam("userId") Long userId, @Context UriInfo uriInfo) {
-        return userService.findById(userId);
+    @Path("/{id}")
+    public User getUser(@PathParam("id") Long id) {
+        return userService.findById(id);
     }
 
+    @ApiOperation("update")
     @PUT
-    @Path("/{userId}")
+    @Path("/{id}")
     // conversion from json to java obj
-    public User updateUser(@PathParam("userId") Long userId, User user, @Context UriInfo uriInfo) {
-        user.setId(userId);
+    public User update(@PathParam("id") Long id, User user) {
+        user.setId(id);
         userService.update(user);
         return user;
     }
 
     @DELETE
-    @Path("/{userId}")
-    public void deleteUser(@PathParam("userId") Long userId) {
-        userService.remove(new User(userId));
+    @Path("/{id}")
+    public void delete(@PathParam("id") Long id) {
+        userService.remove(new User(id));
     }
 }

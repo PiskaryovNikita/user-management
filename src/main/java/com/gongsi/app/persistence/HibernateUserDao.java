@@ -3,11 +3,9 @@ package com.gongsi.app.persistence;
 import com.gongsi.app.persistence.model.User;
 import java.util.List;
 import java.util.Objects;
-import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Transactional
 public class HibernateUserDao extends HibernateDao implements UserDao {
     @Override
     public void create(User user) {
@@ -17,15 +15,18 @@ public class HibernateUserDao extends HibernateDao implements UserDao {
 
     @Override
     public User findByEmail(String email) {
-        Objects.requireNonNull(email);
-        // syntax for select
+        if (Objects.isNull(email)) {
+            throw new IllegalArgumentException("email must be not null");
+        }
         String hql = "FROM User where email = :search_factor";
         return (User) findObject(hql, email);
     }
 
     @Override
     public User findByLogin(String login) {
-        Objects.requireNonNull(login);
+        if (Objects.isNull(login)) {
+            throw new IllegalArgumentException("login must be not null");
+        }
         String hql = "FROM User where login = :search_factor";
         return (User) findObject(hql, login);
     }
@@ -55,7 +56,4 @@ public class HibernateUserDao extends HibernateDao implements UserDao {
         removeObject(user);
     }
 
-    public void removeAll() {
-        removeAllObjects("DELETE User");
-    }
 }

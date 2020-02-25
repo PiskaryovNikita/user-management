@@ -8,61 +8,42 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>User Management :: Application</name>
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.2.4.RELEASE</version>
-  </parent>
-
-  <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <cxf.version>3.3.2</cxf.version>
-    <mockito.version>2.28.2</mockito.version>
-    <swagger.version>1.5.22</swagger.version>
-    <swagger.ui.version>3.22.2</swagger.ui.version>
-    <javax.interceptor.api.version>1.2</javax.interceptor.api.version>
-  </properties>
-
   <dependencies>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-
+    <!-- DB -->
     <dependency>
       <groupId>org.dbunit</groupId>
       <artifactId>dbunit</artifactId>
       <version>2.5.3</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>com.github.springtestdbunit</groupId>
       <artifactId>spring-test-dbunit</artifactId>
       <version>1.1.0</version>
       <scope>test</scope>
     </dependency>
-
-    <!-- DB -->
     <!--        transitive dependency of @Transactional-->
     <dependency>
       <groupId>javax.interceptor</groupId>
       <artifactId>javax.interceptor-api</artifactId>
       <version>${javax.interceptor.api.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.mariadb.jdbc</groupId>
       <artifactId>mariadb-java-client</artifactId>
       <version>${mariadb.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-dbcp2</artifactId>
@@ -80,7 +61,6 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
-
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -91,26 +71,32 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>4.0.0</version>
     </dependency>
-
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
       <version>2.0</version>
     </dependency>
-
     <dependency>
       <groupId>jstl</groupId>
       <artifactId>jstl</artifactId>
       <version>1.2</version>
     </dependency>
 
+    <!--    HIBERNATE-->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-agroal</artifactId>
       <version>${hibernate.version}</version>
       <type>pom</type>
     </dependency>
+    <!--        hibernate validator-->
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator.version}</version>
+    </dependency>
 
+    <!--    SPRING-->
     <!-- SPRING-SECURITY -->
     <dependency>
       <groupId>org.springframework.security</groupId>
@@ -134,6 +120,7 @@
       <artifactId>spring-test</artifactId>
       <scope>test</scope>
     </dependency>
+
     <!-- SPRING CORE -->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -147,20 +134,20 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
     </dependency>
-
     <!-- for session factory -->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -168,15 +155,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>${hibernate.version}</version>
-    </dependency>
-    <!-- MOCKITO -->
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <scope>test</scope>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
     </dependency>
 
     <dependency>
@@ -190,43 +170,36 @@
       <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
       <version>${cxf.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>${javax-annotation.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
       <version>${cxf.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-rs-service-description</artifactId>
       <version>${cxf.version}</version>
     </dependency>
-
-    <dependency>
-      <groupId>io.swagger</groupId>
-      <artifactId>swagger-annotations</artifactId>
-      <version>${swagger.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>swagger-ui</artifactId>
-      <version>${swagger.ui.version}</version>
-    </dependency>
-
     <!--  Cxf-Client-->
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-rs-client</artifactId>
       <version>${cxf.version}</version>
     </dependency>
-
-    <!--        hibernate validator-->
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>${hibernate.version}</version>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>swagger-ui</artifactId>
+      <version>${swagger.ui.version}</version>
     </dependency>
     <!-- Jackson dependencies -->
     <dependency>
@@ -264,6 +237,25 @@
 
 
   </dependencies>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.2.4.RELEASE</version>
+  </parent>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <cxf.version>3.3.2</cxf.version>
+    <mockito.version>2.28.2</mockito.version>
+    <swagger.version>1.5.22</swagger.version>
+    <swagger.ui.version>3.22.2</swagger.ui.version>
+    <javax.interceptor.api.version>1.2</javax.interceptor.api.version>
+    <hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
+  </properties>
 
   <build>
     <plugins>

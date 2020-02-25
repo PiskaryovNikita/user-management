@@ -1,11 +1,21 @@
 package com.gongsi.app.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.gongsi.app.deserializer.OffsetDateTimeDeserializer;
 import com.gongsi.app.persistence.model.Role;
 import com.gongsi.app.persistence.model.User;
+import com.gongsi.app.resource.RoleResource;
+import com.gongsi.app.resource.UserResource;
+import com.gongsi.app.serializer.LocalDateSerializer;
+import com.gongsi.app.serializer.OffsetDateTimeSerializer;
 import com.gongsi.app.service.RoleService;
 import com.gongsi.app.service.UserService;
-import com.gongsi.rest.resource.RoleResource;
-import com.gongsi.rest.resource.UserResource;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInInterceptor;
@@ -16,16 +26,19 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @ComponentScan({"com.gongsi"})
-@EnableWebMvc
 @EnableAutoConfiguration
+@EnableTransactionManagement
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
@@ -34,19 +47,31 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public ViewResolver jspViewResolver() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/pages/");
+        viewResolver.setSuffix(".jsp");
+        return viewResolver;
+    }
+
+    @Bean
     public SessionFactory sessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource);
-        org.hibernate.cfg.Configuration cfg = new org.hibernate.cfg.Configuration();
-        cfg.setProperty("hibernate.dialect", "org.hibernate.dialect.MariaDB102Dialect");
-        builder.addAnnotatedClasses(Role.class, User.class).addProperties(cfg.getProperties());
+
+        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
+        configuration.configure();
+
+        builder.addAnnotatedClasses(Role.class, User.class)
+                .addProperties(configuration.getProperties());
+
         return builder.buildSessionFactory();
     }
 
-    @Bean(name = "dataSource")
-    public DataSource dataSource(@Value("spring.datasource.driver-class-name") String driver,
-                                 @Value("spring.datasource.url") String url,
-                                 @Value("spring.datasource.username") String username,
-                                 @Value("spring.datasource.password") String password,
+    @Bean
+    public DataSource dataSource(@Value("${datasource.driver-class-name}") String driver,
+                                 @Value("${datasource.url}") String url,
+                                 @Value("${datasource.username}") String username,
+                                 @Value("${datasource.password}") String password,
                                  @Value("${datasource.poolSize}") int poolSize) {
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName(driver);
@@ -71,6 +96,30 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public JAXRSBeanValidationOutInterceptor jaxrsBeanValidationOutInterceptor() {
         return new JAXRSBeanValidationOutInterceptor();
+    }
+
+    @Primary
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(OffsetDateTime.class, new OffsetDateTimeSerializer(OffsetDateTime.class));
+        simpleModule.addSerializer(LocalDate.class, new LocalDateSerializer(LocalDate.class));
+        simpleModule.addDeserializer(OffsetDateTime.class, new OffsetDateTimeDeserializer(OffsetDateTime.class));
+        objectMapper.registerModule(simpleModule);
+
+        return objectMapper;
+    }
+
+    //CXF only converts to xml by default
+    // Jackson provides java to json conversion
+    @Bean
+    public JacksonJsonProvider jacksonJsonProvider(ObjectMapper objectMapper) {
+        JacksonJsonProvider jsonProvider = new JacksonJsonProvider();
+        jsonProvider.setMapper(objectMapper);
+        return jsonProvider;
     }
 
     @Bean

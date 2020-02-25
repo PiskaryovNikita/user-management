@@ -1,19 +1,18 @@
 package com.gongsi.app.service;
 
+import com.gongsi.app.errorHandling.exceptions.DataNotFoundExcpetion;
+import com.gongsi.app.errorHandling.exceptions.ResourceAlreadyExistsException;
 import com.gongsi.app.persistence.UserDao;
 import com.gongsi.app.persistence.model.User;
-import com.gongsi.rest.errorHandling.exceptions.DataNotFoundExcpetion;
-import com.gongsi.rest.errorHandling.exceptions.ResourceAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import javax.transaction.Transactional;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-//1 logical operation - 1 tx
-//mb complex dml operations
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
@@ -114,8 +113,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public List<User> findAll() {
         List<User> users = userDao.findAll();
-        if (users.size() == 0) {
-            throw new DataNotFoundExcpetion("no users");
+        if (Objects.isNull(users)) {
+            users = new ArrayList<>();
         }
         return users;
     }

@@ -1,7 +1,7 @@
 package com.gongsi.app.service;
 
+import com.gongsi.app.errorHandling.exceptions.DataNotFoundExcpetion;
 import com.gongsi.app.persistence.model.User;
-import com.gongsi.rest.errorHandling.exceptions.DataNotFoundExcpetion;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User.UserBuilder;
