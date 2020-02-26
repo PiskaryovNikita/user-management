@@ -1,4 +1,27 @@
+debug: false
+
+# info, trace, warn, error, debug
+logging:
+  level:
+    org:
+      springframework:
+        boot: info
+
+server:
+  port: 8080
+  # Important that Spring & CXF PATH doesnt conflict, otherwise service may not be available
+  servlet:
+    context-path: ${APP_NAMESPACE:/}
+
+datasource:
+  url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_DATABASE:userManagement}?${DB_CONNECTION_PARAMS:}
+  username: ${DS_USERNAME:root}
+  password: ${DS_PASSWORD:root}
+  poolSize: ${DS_POOL_SIZE:10}
+  driver-class-name: org.mariadb.jdbc.Driver
+
 cxf:
   jaxrs:
     component-scan: true
     classes-scan-packages: org.apache.cxf.jaxrs.swagger
+  path: ${CXF_NAMESPACE:/api}

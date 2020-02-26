@@ -2,10 +2,13 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.gongsi</groupId>
   <artifactId>user-management</artifactId>
-  <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
+
+  <packaging>war</packaging>
+
   <name>User Management :: Application</name>
 
   <dependencies>
@@ -66,22 +69,6 @@
       <artifactId>logback-classic</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>4.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet.jsp</groupId>
-      <artifactId>jsp-api</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>jstl</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
-    </dependency>
-
     <!--    HIBERNATE-->
     <dependency>
       <groupId>org.hibernate</groupId>
@@ -135,6 +122,12 @@
       <artifactId>spring-context</artifactId>
     </dependency>
 
+    <!--    SPRING WEB-MVC-->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.0</version>
+    </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
@@ -142,6 +135,17 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
+    </dependency>
+    <!-- Need this to compile JSP -->
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-jasper</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
     </dependency>
 
     <dependency>
@@ -158,12 +162,17 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
       <optional>true</optional>
     </dependency>
+
     <!--      CXF-->
     <dependency>
       <groupId>org.apache.cxf</groupId>
@@ -255,6 +264,7 @@
     <swagger.ui.version>3.22.2</swagger.ui.version>
     <javax.interceptor.api.version>1.2</javax.interceptor.api.version>
     <hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
+    <ecj.version>4.6.1</ecj.version>
   </properties>
 
   <build>
