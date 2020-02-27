@@ -2,10 +2,12 @@ package com.gongsi.app.controller;
 
 import com.gongsi.app.persistence.model.Role;
 import com.gongsi.app.persistence.model.User;
-import com.gongsi.app.service.RoleService;
 import com.gongsi.app.service.UserService;
 import java.security.Principal;
+import java.util.List;
 import javax.validation.Valid;
+import javax.ws.rs.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -16,12 +18,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@Slf4j
 @Controller
 public class AdminController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private RoleService roleService;
     @Autowired
     @Qualifier("userValidator")
     private Validator userValidator;
@@ -29,35 +30,42 @@ public class AdminController {
     @GetMapping({"/", "/home"})
     public String showHome(Principal principal, Model model) {
         String login = principal.getName();
-        User user = userService.findByLogin(login);
-        if (user.getRole().getId() == 1L) {
-            return "UserHomePage";
-        } else {
-            model.addAttribute("users", userService.findAll());
+        User user;
+        try {
+            user = userService.findByLogin(login);
+        } catch (NotFoundException exception) {
+            return "redirect:/login";
+        }
+        if (user.getRole().equals(Role.ADMIN)) {
+            List<User> users = userService.findAll();
+            log.trace("Selected list of users: {}", users.toString());
+            model.addAttribute("users", users);
             return "AdminHomePage";
+        } else {
+            return "UserHomePage";
         }
     }
 
     @GetMapping("/adminDelete")
-    public String adminDelete(@RequestParam("userId") Long userId) {
-        userService.remove(new User(userId));
+    public String adminDelete(@RequestParam("id") Long id) {
+        userService.remove(new User(id));
         return "redirect:/home";
     }
 
     @GetMapping("/adminEdit")
     public String editPage(Model model, @RequestParam("id") Long id) {
         model.addAttribute("user", userService.findById(id));
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("roles", Role.values());
         return "AdminEditPage";
     }
 
     @PostMapping("/adminEdit")
     public String adminEdit(@Valid User user, BindingResult bindingResult, Model model,
                             @RequestParam("role") String role) {
-        user.setRole(roleService.findByName(role));
+        user.setRole(Role.valueOf(role));
         if (bindingResult.hasErrors()) {
             model.addAttribute("user", user);
-            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("roles", Role.values());
             return "AdminEditPage";
         }
         userService.update(user);
@@ -66,8 +74,8 @@ public class AdminController {
 
     @GetMapping("/adminAdd")
     public String addPage(Model model) {
-        model.addAttribute("user", new User(new Role(1l, "User")));
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("user", new User(Role.USER));
+        model.addAttribute("roles", Role.values());
         return "AdminAddPage";
     }
 
@@ -75,10 +83,10 @@ public class AdminController {
     public String adminAdd(@Valid User user, BindingResult bindingResult, Model model,
                            @RequestParam("role") String role) {
         userValidator.validate(user, bindingResult);
-        user.setRole(roleService.findByName(role));
+        user.setRole(Role.valueOf(role));
         if (bindingResult.hasErrors()) {
             model.addAttribute("user", user);
-            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("roles", Role.values());
             return "AdminAddPage";
         }
         userService.create(user);

@@ -2,7 +2,6 @@ package com.gongsi.app.persistence;
 
 import java.util.List;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,24 +10,22 @@ import org.springframework.stereotype.Repository;
 
 @Slf4j
 @Repository
-@Transactional
 public class HibernateDao {
     @Autowired
     private SessionFactory sessionFactory;
-
 
     public void createObject(Object object) {
         Session session = sessionFactory.getCurrentSession();
         try {
             session.save(object);
         } catch (Exception e) {
-            log.error("HibernateDao", e);
+            log.error("unknown error", e);
             throw new RuntimeException(e);
         }
     }
 
     public Object findObject(String hql, Object searchValue) {
-        Object obj = null;
+        Object obj;
         Session session = sessionFactory.getCurrentSession();
         try {
             Query query = session.createQuery(hql);
@@ -46,7 +43,7 @@ public class HibernateDao {
 
     @SuppressWarnings("unchecked")
     public <T> List<T> findList(String hql) {
-        List<T> objects = null;
+        List<T> objects;
         Session session = sessionFactory.getCurrentSession();
         try {
             Query query = session.createQuery(hql);
@@ -80,17 +77,6 @@ public class HibernateDao {
         } catch (Exception e) {
             log.error("HibernateDao", e);
             throw new RuntimeException("HibernateDao", e);
-        }
-    }
-
-    public void removeAllObjects(String hql) {
-        Session session = sessionFactory.getCurrentSession();
-        try {
-            Query query = session.createQuery(hql);
-            query.executeUpdate();
-        } catch (Exception e) {
-            log.error("HibernateDao", e);
-            throw new RuntimeException(e);
         }
     }
 }

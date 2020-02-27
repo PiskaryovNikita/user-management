@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 public class HibernateUserDao extends HibernateDao implements UserDao {
     @Override
     public void create(User user) {
-        Objects.requireNonNull(user);
+        if (Objects.isNull(user)) {
+            throw new IllegalArgumentException("user must be not null");
+        }
         createObject(user);
     }
 
@@ -33,7 +35,9 @@ public class HibernateUserDao extends HibernateDao implements UserDao {
 
     @Override
     public User findById(Long id) {
-        Objects.requireNonNull(id);
+        if (Objects.isNull(id)) {
+            throw new IllegalArgumentException("id must be not null");
+        }
         String hql = "FROM User where id = :search_factor";
         return (User) findObject(hql, id);
     }
@@ -46,13 +50,17 @@ public class HibernateUserDao extends HibernateDao implements UserDao {
 
     @Override
     public void update(User user) {
-        Objects.requireNonNull(user);
+        if (Objects.isNull(user)) {
+            throw new IllegalArgumentException("user must be not null");
+        }
         updateObject(user);
     }
 
     @Override
     public void remove(User user) {
-        Objects.requireNonNull(user);
+        if (Objects.isNull(user)) {
+            throw new IllegalArgumentException("user must be not null");
+        }
         removeObject(user);
     }
 

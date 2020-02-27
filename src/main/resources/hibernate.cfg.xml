@@ -7,7 +7,7 @@
     <!--    if using spring @Transactional hibernate.current_session_context_class need to absent-->
     <!--    else(javax @Transactional) is fine-->
     <!--    <property name="hibernate.current_session_context_class">thread</property>-->
-    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.show_sql">false</property>
     <!--    Hibernate ddl auto (create, create-drop, validate, update)-->
     <property name="hbm2ddl.auto">update</property>
     <property name="hibernate.dialect">org.hibernate.dialect.MariaDB102Dialect</property>

@@ -1,7 +1,7 @@
 package com.gongsi.app.config;
 
-import com.gongsi.app.persistence.model.Role;
 import com.gongsi.app.persistence.model.User;
+import com.gongsi.app.properties.DataSourceProperties;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
@@ -37,7 +37,7 @@ public class HibernateConfig {
         org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
         configuration.configure();
 
-        builder.addAnnotatedClasses(Role.class, User.class)
+        builder.addAnnotatedClasses(User.class)
                 .addProperties(configuration.getProperties());
 
         return builder.buildSessionFactory();

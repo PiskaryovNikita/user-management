@@ -1,4 +1,4 @@
-package com.gongsi.app.config;
+package com.gongsi.app.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

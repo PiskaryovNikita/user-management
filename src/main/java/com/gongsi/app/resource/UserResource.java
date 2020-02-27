@@ -51,8 +51,8 @@ public class UserResource {
         if (filterBean.getStart() != null && filterBean.getSize() != null) {
             return userService.paginatedUsers(filterBean.getStart(), filterBean.getSize());
         }
-        if (filterBean.getRoleId() != null) {
-            return userService.filterByRole(filterBean.getRoleId());
+        if (filterBean.getRole() != null) {
+            return userService.filterByRole(filterBean.getRole());
         }
         return userService.findAll();
     }

@@ -2,6 +2,7 @@ package com.gongsi.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -14,8 +15,9 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * EnableAutoConfiguration 1. adds beans that are annotated with @ConditionalOnClass
  * if the @Configuration/@Bean/@Component present at class-path
  * 2. add beans that are annotated with @ConditionalOnMissingBean if user doesn't define the bean type
+ * HibernateJpaAutoConfiguration excluded since app doesn't need additional jpa beans, app provides its own config
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
 @EnableConfigurationProperties
 public class UserManagementApplication extends SpringBootServletInitializer {
 

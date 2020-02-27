@@ -3,7 +3,6 @@ package com.gongsi.app.mockito;
 import com.gongsi.app.controller.AdminController;
 import com.gongsi.app.persistence.model.Role;
 import com.gongsi.app.persistence.model.User;
-import com.gongsi.app.service.RoleService;
 import com.gongsi.app.service.UserService;
 import java.security.Principal;
 import java.sql.SQLException;
@@ -38,8 +37,6 @@ public class AdminControllerTest {
     @Mock
     private UserService userDao;
     @Mock
-    private RoleService roleDao;
-    @Mock
     private Validator userValidator;
     @Mock
     private Principal mockPrincipal;
@@ -52,11 +49,9 @@ public class AdminControllerTest {
         initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         when(userDao.findById(anyLong())).thenReturn(new User());
-        when(userDao.findByLogin("userLogin")).thenReturn(new User(new Role(1L, "User")));
-        when(userDao.findByLogin("adminLogin")).thenReturn(new User(new Role(2L, "Admin")));
+        when(userDao.findByLogin("userLogin")).thenReturn(new User(Role.USER));
+        when(userDao.findByLogin("adminLogin")).thenReturn(new User(Role.ADMIN));
         when(userDao.findAll()).thenReturn(new ArrayList<>());
-        when(roleDao.findByName(any())).thenReturn(new Role());
-        when(roleDao.findAll()).thenReturn(new ArrayList<>());
     }
 
     @Test
@@ -88,9 +83,6 @@ public class AdminControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("AdminEditPage"))
                 .andExpect(model().attributeExists("user", "roles"));
-        InOrder inOrder = inOrder(userDao, roleDao);
-        inOrder.verify(userDao, times(1)).findById(1L);
-        inOrder.verify(roleDao, times(1)).findAll();
     }
 
     @Test
@@ -103,9 +95,6 @@ public class AdminControllerTest {
                 .andExpect(model().attributeExists("user", "roles"))
                 .andExpect(model().attributeHasFieldErrors("user", "id"))
                 .andExpect(model().attributeHasFieldErrors("user", "birthday"));
-        InOrder inOrder = inOrder(roleDao);
-        inOrder.verify(roleDao, times(1)).findByName(any());
-        inOrder.verify(roleDao, times(1)).findAll();
     }
 
     @Test
@@ -116,9 +105,6 @@ public class AdminControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/home"))
                 .andExpect(model().errorCount(0));
-        InOrder inOrder = inOrder(userDao, roleDao);
-        inOrder.verify(roleDao, times(1)).findByName(any());
-        inOrder.verify(userDao, times(1)).update(any(User.class));
     }
 
     @Test
@@ -127,7 +113,6 @@ public class AdminControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("AdminAddPage"))
                 .andExpect(model().attributeExists("user", "roles"));
-        verify(roleDao, times(1)).findAll();
     }
 
     @Test
@@ -139,10 +124,8 @@ public class AdminControllerTest {
                 .andExpect(forwardedUrl("AdminAddPage"))
                 .andExpect(model().attributeExists("user", "roles"))
                 .andExpect(model().attributeHasFieldErrors("user", "birthday"));
-        InOrder inOrder = inOrder(userValidator, roleDao);
+        InOrder inOrder = inOrder(userValidator);
         inOrder.verify(userValidator, times(1)).validate(any(User.class), any(BindingResult.class));
-        inOrder.verify(roleDao, times(1)).findByName(any());
-        inOrder.verify(roleDao, times(1)).findAll();
     }
 
     @Test
@@ -153,9 +136,8 @@ public class AdminControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/home"))
                 .andExpect(model().errorCount(0));
-        InOrder inOrder = inOrder(userValidator, roleDao, userDao);
+        InOrder inOrder = inOrder(userValidator, userDao);
         inOrder.verify(userValidator, times(1)).validate(any(User.class), any(BindingResult.class));
-        inOrder.verify(roleDao, times(1)).findByName(any());
         inOrder.verify(userDao, times(1)).create(any(User.class));
     }
 

@@ -1,6 +1,8 @@
 package com.gongsi.app.config;
 
-import com.gongsi.app.service.UserDetailsServiceImp;
+import com.gongsi.app.service.UserDetailsServiceImpl;
+import com.gongsi.app.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,10 +13,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImp();
+    public UserDetailsService userDetailsService(UserService userService) {
+        return new UserDetailsServiceImpl(userService);
     }
 
     @Bean
@@ -23,15 +27,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/logout"/*, "/api/**"*/).hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/", "/home", "/logout", "/api/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/adminDelete", "/adminEdit", "/adminAdd").hasAuthority("ADMIN")
                 .and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/home").permitAll()

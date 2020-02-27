@@ -36,10 +36,10 @@ public class UserTag implements Tag {
             }
             String role = "<td>unknown</td>";
             if (user.getRole() != null) {
-                role = "<td>" + user.getRole().getName() + "</td>";
+                role = "<td>" + user.getRole().name() + "</td>";
             }
-            String actionEdit = "<td><a href=\"/adminEdit?userId=" + user.getId() + "\">Edit</a>";
-            String actionDelete = "<a href=\"/adminDelete?userId=" + user.getId()
+            String actionEdit = "<td><a href=\"/adminEdit?id=" + user.getId() + "\">Edit</a>";
+            String actionDelete = "<a href=\"/adminDelete?id=" + user.getId()
                     +
                     "\"onclick=\"return confirm('Are you sure you want to delete this user?');\">Delete</a></td></tr>";
             output += idlfnln + age + role + actionEdit + actionDelete;
@@ -72,7 +72,7 @@ public class UserTag implements Tag {
     }
 
     @Override
-    public int doEndTag() throws JspException {
+    public int doEndTag() {
         return Tag.EVAL_PAGE;
     }
 

@@ -1,7 +1,10 @@
 package com.gongsi.app.resource;
 
+import com.gongsi.app.persistence.model.Role;
 import javax.ws.rs.QueryParam;
+import lombok.Data;
 
+@Data
 public class UserFilterBean {
     @QueryParam("year")
     private Integer year;
@@ -10,37 +13,5 @@ public class UserFilterBean {
     @QueryParam("size")
     private Integer size;
     @QueryParam("roleId")
-    private Long roleId;
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
-    public Integer getStart() {
-        return start;
-    }
-
-    public void setStart(Integer start) {
-        this.start = start;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
+    private Role role;
 }

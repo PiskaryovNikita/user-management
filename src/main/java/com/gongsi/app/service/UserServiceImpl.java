@@ -1,21 +1,23 @@
 package com.gongsi.app.service;
 
-import com.gongsi.app.errorHandling.exceptions.DataNotFoundExcpetion;
 import com.gongsi.app.errorHandling.exceptions.ResourceAlreadyExistsException;
 import com.gongsi.app.persistence.UserDao;
+import com.gongsi.app.persistence.model.Role;
 import com.gongsi.app.persistence.model.User;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.ws.rs.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
+
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
 
     @Override
     @Transactional
@@ -29,9 +31,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(User user) {
-        // upd count = 0
         if (findById(user.getId()) == null) {
-            throw new DataNotFoundExcpetion(user + " doesn't exist");
+            throw new NotFoundException(user + " doesn't exist");
         }
         userDao.update(user);
     }
@@ -39,18 +40,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void remove(User user) {
-        // delete count = 0
         if (findById(user.getId()) == null) {
-            throw new DataNotFoundExcpetion(user + " doesn't exist");
+            throw new NotFoundException(user + " doesn't exist");
         }
         userDao.remove(user);
     }
 
     @Override
-    public List<User> filterByRole(Long roleId) {
+    @Transactional
+    public List<User> filterByRole(Role role) {
         List<User> users = new ArrayList<>();
         for (User user : findAll()) {
-            if (user.getRole().getId().equals(roleId)) {
+            if (user.getRole().equals(role)) {
                 users.add(user);
             }
         }
@@ -58,6 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<User> filterByYear(int year) {
         List<User> users = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
@@ -71,6 +73,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<User> paginatedUsers(int start, int size) {
         List<User> users = findAll();
         if (start + size > users.size()) {
@@ -84,7 +87,7 @@ public class UserServiceImpl implements UserService {
     public User findById(Long userId) {
         User user = userDao.findById(userId);
         if (user == null) {
-            throw new DataNotFoundExcpetion("no user with id " + userId);
+            throw new NotFoundException("no user with id " + userId);
         }
         return user;
     }
@@ -94,7 +97,7 @@ public class UserServiceImpl implements UserService {
     public User findByLogin(String login) {
         User user = userDao.findByLogin(login);
         if (user == null) {
-            throw new DataNotFoundExcpetion("no user with login " + login);
+            throw new NotFoundException("no user with login " + login);
         }
         return user;
     }
@@ -104,7 +107,7 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         User user = userDao.findByEmail(email);
         if (user == null) {
-            throw new DataNotFoundExcpetion("no user with email " + email);
+            throw new NotFoundException("no user with email " + email);
         }
         return user;
     }

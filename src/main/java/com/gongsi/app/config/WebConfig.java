@@ -21,7 +21,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
     // SPRING WEB-MVC
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
