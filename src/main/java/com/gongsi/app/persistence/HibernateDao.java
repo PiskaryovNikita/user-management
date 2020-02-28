@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+//TODO: refactor dao layer, generics(no unchecked), naming, check hibernate best practices
 @Slf4j
 @Repository
 public class HibernateDao {

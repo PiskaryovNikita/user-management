@@ -1,5 +1,6 @@
 package com.gongsi.app.controller;
 
+import com.gongsi.app.config.jmx.LoggingController;
 import com.gongsi.app.persistence.model.Role;
 import com.gongsi.app.persistence.model.User;
 import com.gongsi.app.service.UserService;
@@ -26,6 +27,8 @@ public class AdminController {
     @Autowired
     @Qualifier("userValidator")
     private Validator userValidator;
+    @Autowired
+    private LoggingController loggingController;
 
     @GetMapping({"/", "/home"})
     public String showHome(Principal principal, Model model) {
@@ -38,7 +41,12 @@ public class AdminController {
         }
         if (user.getRole().equals(Role.ADMIN)) {
             List<User> users = userService.findAll();
+
+            if (loggingController.isEnabled()) {
+                log.info("Selected size of users list: {}", users.size());
+            }
             log.trace("Selected list of users: {}", users.toString());
+
             model.addAttribute("users", users);
             return "AdminHomePage";
         } else {
