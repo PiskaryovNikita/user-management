@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 
@@ -18,7 +17,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * HibernateJpaAutoConfiguration excluded since app doesn't need additional jpa beans, app provides its own config
  */
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
-@EnableConfigurationProperties
 public class UserManagementApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

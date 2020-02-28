@@ -16,14 +16,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProfilingHandlerBeanPostProcessor implements BeanPostProcessor {
-    private Map<String, Class<?>> map = new HashMap<>();
     @Autowired
-    private ProfilingController profilingController;/* = new ProfilingController();
-
-    public ProfilingHandlerBeanPostProcessor() throws Exception {
-        ManagementFactory.getPlatformMBeanServer()
-                .registerMBean(profilingController, new ObjectName("profiling", "name", "controller"));
-    }*/
+    private ProfilingController profilingController;
+    private Map<String, Class<?>> map = new HashMap<>();
 
     @Override
     public Object postProcessBeforeInitialization(@NonNull Object bean, @NonNull String beanName)

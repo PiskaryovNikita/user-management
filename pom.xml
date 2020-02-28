@@ -144,7 +144,7 @@
     <dependency>
       <groupId>jstl</groupId>
       <artifactId>jstl</artifactId>
-      <version>1.2</version>
+      <version>${jstl.version}</version>
     </dependency>
 
     <dependency>
@@ -264,6 +264,7 @@
     <javax.interceptor.api.version>1.2</javax.interceptor.api.version>
     <hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
     <ecj.version>4.6.1</ecj.version>
+    <jstl.version>1.2</jstl.version>
   </properties>
 
   <build>
