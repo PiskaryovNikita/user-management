@@ -1,0 +1,7 @@
+version: '2'
+
+services:
+  tomcat:
+    image: 'reactspring:latest'
+    ports:
+      - '8080:8080'
