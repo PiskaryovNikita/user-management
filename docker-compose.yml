@@ -1,7 +1,14 @@
 version: '2'
 
 services:
-  tomcat:
-    image: 'reactspring:latest'
+  mariadb:
+    image: 'mariadb:10.2'
     ports:
-      - '8080:8080'
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=userManagement
+
+volumes:
+  mariadb_data:
+    driver: local

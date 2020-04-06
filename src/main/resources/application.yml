@@ -8,7 +8,7 @@ logging:
         boot: info
 
 server:
-  port: 8080
+  port: 8086
   # Important that Spring & CXF PATH doesnt conflict, otherwise service may not be available
   servlet:
     context-path: ${APP_NAMESPACE:/}
