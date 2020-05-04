@@ -1,7 +1,5 @@
-package com.gongsi.app.config;
+package com.gongsi.app.config.jmx;
 
-import com.gongsi.app.config.jmx.LoggingController;
-import com.gongsi.app.config.jmx.ProfilingController;
 import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +28,7 @@ public class MBeanConfig {
 
     private void registerMbean(LoggingController loggingController) throws Exception {
         ManagementFactory.getPlatformMBeanServer()
-                .registerMBean(loggingController, new ObjectName("logging", "name", "LoggingController"));
+                .registerMBean(loggingController,
+                        new ObjectName("logging", "name", "LoggingController"));
     }
 }

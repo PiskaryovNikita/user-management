@@ -45,9 +45,11 @@ public class AdminController {
             if (loggingController.isEnabled()) {
                 log.info("Selected size of users list: {}", users.size());
             }
-            log.trace("Selected list of users: {}", users.toString());
-
+            
             model.addAttribute("users", users);
+
+            log.trace("Model attributes: {}", model.asMap());
+
             return "AdminHomePage";
         } else {
             return "UserHomePage";
