@@ -262,7 +262,7 @@
     <swagger.version>1.5.22</swagger.version>
     <swagger.ui.version>3.22.2</swagger.ui.version>
     <javax.interceptor.api.version>1.2</javax.interceptor.api.version>
-    <hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
+    <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
     <ecj.version>4.6.1</ecj.version>
     <jstl.version>1.2</jstl.version>
   </properties>
